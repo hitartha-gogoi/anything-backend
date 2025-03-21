@@ -1,23 +1,23 @@
-#  [ANYTHING APP](https://expo.dev/artifacts/eas/8hkWj9nrqa1W82V1D2EYc3.apk)
+#  [ANYTHING APP](https://expo.dev/artifacts/eas/8VxTgsGLwF3PokJXbiF8sV.apk)
 
 AN APP BUILT FOR THE RESIDENTS OF NAHARKATIA SIMPLIFYING QUICK COMMERCE
 
 ## ANYTHING APP
 
 ```bash
-  https://expo.dev/artifacts/eas/8hkWj9nrqa1W82V1D2EYc3.apk
+  https://expo.dev/artifacts/eas/8VxTgsGLwF3PokJXbiF8sV.apk
 ```
 
 ## PARTNER APP
 
 ```bash
-  https://expo.dev/artifacts/eas/dyo5TQV2Udtidv66CZGBeL.apk
+  https://expo.dev/artifacts/eas/nJfSaNH6wbJtpu6S4RTTBT.apk
 ```
 
 ## ADMIN APP
 
 ```bash
-  https://expo.dev/artifacts/eas/mUQQLsgQR8qZ6YV3dmYT6G.apk
+  https://expo.dev/artifacts/eas/6dC2oBWJQ6duBuKZg8Shgm.apk
 ```
 
 
