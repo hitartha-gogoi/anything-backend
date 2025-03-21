@@ -1,7 +1,7 @@
 
 
-export default async function ApproveOrder(socket, io, deliveryPerson, deliveryNumber, orderId, otp, deliverySockets, users){
-    console.log(`Name: ${deliveryPerson}, number: ${deliveryNumber}, otp: ${otp}`)
+export default async function KinaHol(socket, io, deliveryPerson, deliveryNumber, orderId, deliverySockets, users){
+    console.log(``)
 
     let clientSocketId = null;
     for (const [clientId, clientData] of Object.entries(users)) {
@@ -13,9 +13,9 @@ export default async function ApproveOrder(socket, io, deliveryPerson, deliveryN
 
     if (clientSocketId) {
         console.log(`Emitting OTP to client: ${clientSocketId}`);
-        io.to(clientSocketId).emit("display-otp", deliveryPerson, deliveryNumber, otp);
+        io.to(clientSocketId).emit("display-number", deliveryPerson, deliveryNumber, orderId, clientSocketId);
     } else {
         console.log(`No client found for Order ID: ${orderId}`);
     }
-    //socket.broadcast.emit("display-otp", deliveryPerson, deliveryNumber, otp)
+
 }

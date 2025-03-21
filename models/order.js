@@ -5,7 +5,7 @@ const OrderSchema = mongoose.Schema({
 	list: { type: String, required: true },
 	name: { type: String, required: true },
 	address: { type: String, required: true },
-	phoneNumber: { type: Number, required: true, unique: true },
+	phoneNumber: { type: Number, required: true },
 	status: {
 		type: String,
 		enum: ["PENDING", "APPROVED", "FLAGGED", "ASSIGNED", "DELIVERED"],

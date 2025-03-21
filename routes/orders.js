@@ -25,9 +25,25 @@ router.get("/orders", async(req,res)=>{
 
 })
 
+router.get("/order/single/:id", async(req,res)=>{
+
+    try{
+        const order = await Order.findById(req.params.id)
+        if (!order) return res.status(404).json({ message: "NO ORDER FOUND" });
+        return res.status(200).json({ message: "success", order: order  })
+
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({ message: "Internal server error" })
+    }
+
+})
+
 router.get("/order/approved", async (req, res) => {
+    console.log("Order approved route")
 
     try {
+      //console.log(Array.from(req.io.sockets.sockets.keys()))
       const latestPendingOrder = await Order.findOne({ status: "APPROVED" }).sort({ createdAt: -1 }).limit(1); // Only return the latest one
       if (!latestPendingOrder) return res.status(404).json({ message: "NO ORDERS" });
       return res.status(200).json({ message: "success", order: latestPendingOrder });
@@ -41,6 +57,7 @@ router.get("/order/approved", async (req, res) => {
 router.get("/orders/pending", async (req, res) => {
 
     try {
+        
       const pendingOrders = await Order.find({ status: "PENDING" }).sort({ timestamp: -1 });
       if(!pendingOrders) return res.status(404).json({ message: "NO ORDERS"})
       return res.status(200).json({ message: "success", orders: pendingOrders });
@@ -112,7 +129,6 @@ router.post("/order", async(req,res)=>{
         })
 
         await order.save()
-        console.log(order)
 
         const messages = []
 
@@ -153,7 +169,7 @@ router.post("/order", async(req,res)=>{
                 console.error("Failed to send notifications:", responseData);
               }
 
-            return res.status(200).json({ message: "success" })
+            return res.status(200).json({ message: "success", orderId: order._id, otp: order.otp })
         }
 
     } catch(error) {
@@ -198,7 +214,7 @@ router.put("/order/assign/:id", async(req,res)=>{
 
     try{
         const { deliveryPerson, deliveryNumber } = req.body
-        const order = await Order.findByIdAndUpdate(req.params.id, { $set: { status: "ASSIGNED", deliveryPerson, deliveryNumber } }, { new: true })
+        const order = await Order.findByIdAndUpdate(req.params.id, { $set: { status: "ASSIGNED", deliveryPerson, deliveryNumber: Number(deliveryNumber) } }, { new: true })
 
         if (!order) return res.status(404).json({ message: "Order not found" });
 
@@ -223,6 +239,7 @@ router.put("/order/verify-otp/:id", async(req,res)=>{
 
         if(Number(otp) === order.otp){
             await Order.findByIdAndUpdate(req.params.id, { status: "DELIVERED" }, { new: true });
+           // req.io.emit("delivered-order", order.deliveryPerson, order.deliveryNumber, order.otp)
             return res.status(200).json({ message: "success" })
             
         } else {

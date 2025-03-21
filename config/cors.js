@@ -1,4 +1,4 @@
-const productionUrl = "https://anything-backend.onrender.com"
+const productionUrl = ""
 const localHostUrl = "http://192.168.29.244:8080"
 const socketAdminUrl = "https://admin.socket.io"
 const socketUrl = "http://192.168.23.65:8080"

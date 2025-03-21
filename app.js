@@ -26,7 +26,7 @@ connectDB()
 export const socketServer = (server)=>{
   const io = new Server(server, { cors: corsConfig });
   console.log("The socket is running ")
-  io.on("connection", (socket, io)=> Socket(socket, io));
+  io.on("connection", (socket)=> Socket(socket, io));
   app.set("io", io);
   return io;
 }
