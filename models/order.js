@@ -13,6 +13,7 @@ const OrderSchema = mongoose.Schema({
 	  },
 	otp: { type: Number, unique: true },
 	deliveryPerson: { type: String },
+	rating: { type: Number },
     deliveryPersonNumber: { type: Number, required: true, default: 0, set: v => v ?? 0  },
 	timestamp: { type: String, required: true, default: "", set: v => v || "" }
 })

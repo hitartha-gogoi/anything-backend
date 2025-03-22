@@ -15,7 +15,6 @@ router.get("/orders", async(req,res)=>{
 
     try{
         const orders = await Order.find().sort({ timestamp: -1 })
-        console.log(orders)
         return res.status(200).json({ message: "success", orders: orders })
 
     } catch(error) {
@@ -136,7 +135,7 @@ router.post("/order", async(req,res)=>{
 
         if(!admin){
             req.io.emit("new-order", order)
-            return res.status(200).json({ message: "success" })
+            return res.status(200).json({ message: "success", orderId: order._id, otp: order.otp })
         } else {
             req.io.emit("new-order", order)
 
@@ -214,8 +213,8 @@ router.put("/order/assign/:id", async(req,res)=>{
 
     try{
         const { deliveryPerson, deliveryNumber } = req.body
-        const order = await Order.findByIdAndUpdate(req.params.id, { $set: { status: "ASSIGNED", deliveryPerson, deliveryNumber: Number(deliveryNumber) } }, { new: true })
-
+        console.log("THE DELIVERY HAS BEEN ASSIGNED TO : ", deliveryPerson, ", number: ", deliveryNumber)
+        const order = await Order.findByIdAndUpdate(req.params.id, { $set: { status: "ASSIGNED", deliveryPerson, deliveryPersonNumber: deliveryNumber } }, { new: true })
         if (!order) return res.status(404).json({ message: "Order not found" });
 
         return res.status(200).json({ message: "success" })
@@ -246,6 +245,35 @@ router.put("/order/verify-otp/:id", async(req,res)=>{
             return res.status(200).json({ message: "INCORRECT OTP" })
         }
  
+
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({ message: "Internal server error" })
+    }
+
+})
+
+router.put("/order/rating/:id", async(req,res)=>{
+
+    try{
+        const order = await Order.findByIdAndUpdate(req.params.id, { rating: Number(req.body.rating) }, { new: true });
+        if (!order) return res.status(404).json({ message: "NO ORDER FOUND" });
+        return res.status(200).json({ message: "success" })
+
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({ message: "Internal server error" })
+    }
+
+})
+
+router.put("/order/edit/:id", async(req,res)=>{
+
+    try{
+        const order = await Order.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
+        if (!order) return res.status(404).json({ message: "NO ORDER FOUND" });
+        console.log("THE ORDER EDITED BY ADMIN ARE : ", order)
+        return res.status(200).json({ message: "success" })
 
     } catch(error) {
         console.log(error)

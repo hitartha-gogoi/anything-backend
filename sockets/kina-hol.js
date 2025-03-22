@@ -1,11 +1,13 @@
 
 
 export default async function KinaHol(socket, io, deliveryPerson, deliveryNumber, orderId, deliverySockets, users){
-    console.log(``)
 
     let clientSocketId = null;
+    console.log("THE DELIVERY PERSON TAPPED KINA HOL")
     for (const [clientId, clientData] of Object.entries(users)) {
-        if (clientData.orderId === orderId) {
+
+        console.log("The order id: ", clientData.orderId, " The order Id we need: ", orderId)
+        if (clientData.orderId === orderId) {        
             clientSocketId = clientId;
             break;  // Stop once found
         }

@@ -8,11 +8,11 @@ export default async function UserConnection(socket, io, userType, userNumber, o
         socket.emit('user-joined', socket.id)
     } else if(userType == "DELIVERY"){
         deliverySockets[socket.id] = { socket, userNumber, userType, orderId }
-        console.log(userType)
+        console.log(userType, " WITH THE ORDER ID: ", orderId)
         socket.emit('user-joined', socket.id)
     } else if(userType == "CLIENT"){
         users[socket.id] = { socket, userNumber, userType, orderId }
-        console.log(userType)
+        console.log(userType, " WITH THE ORDER ID: ", orderId)
         const pendingOrders = await Order.find({ status: "PENDING" }).sort({ timestamp: -1 });
         if(adminSocket){
             console.log("admin socket id : ", adminSocket.id)
